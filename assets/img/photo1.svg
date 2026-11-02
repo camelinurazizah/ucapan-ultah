@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="100%" height="100%">
+  <defs>
+    <linearGradient id="skyGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#050c1e"/>
+      <stop offset="50%" stop-color="#0a1d4a"/>
+      <stop offset="100%" stop-color="#143b82"/>
+    </linearGradient>
+    <radialGradient id="glowGold1" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffd166" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#ffd166" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="moonGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="70%" stop-color="#caf0f8"/>
+      <stop offset="100%" stop-color="#90e0ef" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="100%" height="100%" fill="url(#skyGrad1)"/>
+
+  <!-- Stars -->
+  <circle cx="120" cy="180" r="2" fill="#ffffff" opacity="0.9"/>
+  <circle cx="280" cy="90" r="1.5" fill="#ffd166" opacity="0.8"/>
+  <circle cx="450" cy="220" r="2.5" fill="#ffffff" opacity="0.95"/>
+  <circle cx="680" cy="140" r="1.8" fill="#caf0f8" opacity="0.85"/>
+  <circle cx="200" cy="340" r="1.2" fill="#ffffff" opacity="0.7"/>
+  <circle cx="600" cy="380" r="2" fill="#ffd166" opacity="0.9"/>
+  <circle cx="350" cy="460" r="1.5" fill="#ffffff" opacity="0.6"/>
+  <circle cx="710" cy="520" r="2.2" fill="#caf0f8" opacity="0.8"/>
+
+  <!-- Glowing Moon -->
+  <circle cx="640" cy="180" r="100" fill="url(#moonGlow)" opacity="0.3"/>
+  <circle cx="640" cy="180" r="45" fill="#fdfbf7"/>
+  <circle cx="655" cy="175" r="40" fill="url(#skyGrad1)"/>
+
+  <!-- Glowing Silhouette & Memory Theme -->
+  <circle cx="400" cy="500" r="160" fill="url(#glowGold1)" opacity="0.15"/>
+  
+  <!-- Stylized Icon / Graphic -->
+  <g transform="translate(400, 480)" text-anchor="middle">
+    <path d="M-60,30 C-90,-20 -20,-60 0,-10 C20,-60 90,-20 60,30 C30,70 0,100 0,100 C0,100 -30,70 -60,30 Z" fill="#48cae4" opacity="0.25"/>
+    <path d="M-40,25 C-60,-10 -15,-40 0,-5 C15,-40 60,-10 40,25 C20,55 0,75 0,75 C0,75 -20,55 -40,25 Z" fill="#ffd166" opacity="0.75"/>
+    <text y="140" fill="#ffffff" font-family="'Plus Jakarta Sans', sans-serif" font-size="28" font-weight="700" letter-spacing="2">FIRST PRECIOUS MOMENTS</text>
+    <text y="175" fill="#90e0ef" font-family="'Plus Jakarta Sans', sans-serif" font-size="18" letter-spacing="1">"Where Our Journey Began"</text>
+    <text y="210" fill="#ffd166" font-family="'Plus Jakarta Sans', sans-serif" font-size="15" letter-spacing="1">Ganti dengan fotomu &amp; Riki di assets/img/photo1.jpg</text>
+  </g>
+
+  <!-- Modern aesthetic border -->
+  <rect x="25" y="25" width="750" height="950" rx="20" fill="none" stroke="#90e0ef" stroke-width="1.5" stroke-opacity="0.3" stroke-dasharray="8 6"/>
+</svg>
+

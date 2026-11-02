@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy 23rd Birthday, Riki Baihaki! 💙✨</title>
+  <meta name="description" content="Website ucapan ulang tahun interaktif dan estetis untuk Riki Baihaki yang ke-23.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:ital,wght@0,600;0,800;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+
+  <!-- Background Interactive Particles & Shooting Stars Canvas -->
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- =========================================================================
+       1. COVER / SURPRISE OPENING CURTAIN
+       ========================================================================= -->
+  <section id="welcome-curtain">
+    <div class="curtain-card">
+      <div class="curtain-badge">
+        <i class="fa-solid fa-sparkles"></i> Special Celebration
+      </div>
+      <h1 class="curtain-title">Untuk Riki Baihaki 💙</h1>
+      <p class="curtain-subtitle">
+        Sebuah persembahan kecil untuk merayakan hari paling istimewa dari orang yang paling hebat.
+      </p>
+
+      <button id="btn-open-surprise" class="btn-open-surprise">
+        <i class="fa-solid fa-gift"></i>
+        <span>Buka Kado Spesial / Tap to Open</span>
+      </button>
+
+      <div class="curtain-audio-hint">
+        <i class="fa-solid fa-volume-high"></i> Disarankan menyalakan audio perangkat untuk alunan musik romantis
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       2. FLOATING AUDIO PLAYER WIDGET
+       ========================================================================= -->
+  <div id="floating-audio" class="floating-audio-widget">
+    <div id="audio-disc" class="audio-disc" title="Putar / Jeda Musik">
+      <i class="fa-solid fa-music" style="color: #ffffff; font-size: 0.85rem;"></i>
+    </div>
+    <div class="audio-info">
+      <span class="audio-title">Romantic Melody 💙</span>
+      <div class="audio-waves">
+        <span></span><span></span><span></span><span></span>
+      </div>
+    </div>
+    <button id="btn-audio-toggle" class="btn-audio-toggle" aria-label="Toggle Audio">
+      <i class="fa-solid fa-play"></i>
+    </button>
+  </div>
+
+  <!-- Audio Element (Pastikan meletakkan file audio di assets/audio/bgm.mp3) -->
+  <audio id="bgm-audio" loop preload="auto">
+    <source src="assets/audio/bgm.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- =========================================================================
+       3. MAIN HERO SECTION
+       ========================================================================= -->
+  <header class="hero-section">
+    <div class="container">
+      <div class="badge-milestone">
+        <i class="fa-solid fa-crown" style="color: var(--gold-accent);"></i>
+        <span>Chapter 23 • 04 November</span>
+      </div>
+
+      <h1 id="typewriter-title" class="hero-title gradient-text">
+        Happy 23rd Birthday, Riki Baihaki!
+      </h1>
+
+      <p class="hero-subtitle">
+        Selamat menyambut usia 23 tahun yang penuh keajaiban. Terima kasih telah hadir dan melukis begitu banyak tawa
+        serta kebahagiaan dalam hidupku.
+      </p>
+
+      <nav class="hero-nav-pills">
+        <a href="#letter-section" class="nav-pill">
+          <i class="fa-solid fa-envelope-open-text"></i> Surat Cinta
+        </a>
+        <a href="#cake-section" class="nav-pill">
+          <i class="fa-solid fa-cake-candles"></i> Tiup Lilin 23
+        </a>
+        <a href="#gallery-section" class="nav-pill">
+          <i class="fa-solid fa-images"></i> Galeri Kenangan
+        </a>
+        <a href="#wish-section" class="nav-pill">
+          <i class="fa-solid fa-pen-nib"></i> Wish Box &amp; Doa
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       4. PERSONAL BIRTHDAY LETTER & SWEET WISH SECTION
+       ========================================================================= -->
+  <section id="letter-section" class="section-block">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">A Letter From The Heart</span>
+        <h2 class="section-title">Pesan Terdalam Untukmu</h2>
+        <p class="section-desc">Kata-kata yang kurangkai khusus untuk merayakan kehadiranmu di dunia ini.</p>
+      </div>
+
+      <div class="glass-panel letter-wrapper">
+        <div class="letter-header">
+          <h3 class="letter-salutation">Dear Riki Baihaki,</h3>
+          <span class="letter-date">04 November 2026 • Pada Ulang Tahunmu yang ke-23</span>
+        </div>
+
+        <div class="letter-body">
+          <p>
+            Selamat ulang tahun yang ke-23, sayang! Hari ini bukan cuma sekadar angka yang berganti, tapi perayaan dari
+            sebuah jiwa yang tangguh, baik hati, dan selalu berusaha memberikan yang terbaik untuk orang-orang di
+            sekitarnya.
+          </p>
+
+          <p>
+            Melihat caramu berjuang, caramu tersenyum saat menghadapi hari yang lelah, dan kehangatan yang selalu kamu
+            bagikan membuat aku selalu merasa bersyukur Tuhan mempertemukan kita. Kamu bukan hanya pasanganku, tapi juga
+            tempatku bercerita, sahabat terbaikku, dan alasan aku selalu percaya pada hal-hal baik di masa depan.
+          </p>
+
+          <div class="letter-quote">
+            "Semoga di setiap embusan napas usiamu yang ke-23 ini, semesta selalu berpihak padamu. Semoga langkahmu
+            dilapangkan, setiap keringatmu berbuah manis, dan senyum tulusmu tak pernah pudar."
+          </div>
+
+          <p>
+            Teruslah melangkah dengan bangga ya, Riki. Apapun rintangan dan mimpi besar yang sedang kamu kejar, ingat
+            bahwa kamu tidak pernah sendirian. Aku akan selalu ada di sampingmu, menggenggam tanganmu, dan menjadi
+            pendukung nomormu yang paling setia.
+          </p>
+        </div>
+
+        <div class="letter-footer">
+          <span class="letter-signature-intro">Selalu mencintaimu,</span>
+          <div class="letter-signature">Your Girl 💙</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       5. INTERACTIVE VIRTUAL BIRTHDAY CAKE (TIUP LILIN)
+       ========================================================================= -->
+  <section id="cake-section" class="section-block">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Make A Wish</span>
+        <h2 class="section-title">Virtual Birthday Cake</h2>
+        <p class="section-desc">Pejamkan matamu, ucapkan doa terbaikmu dalam hati, lalu tiup lilinnya bersama-sama!</p>
+      </div>
+
+      <div class="glass-panel cake-card">
+        <div class="cake-stage">
+          <!-- Lilin Usia 23 -->
+          <div class="candles-container">
+            <!-- Candle 1 -->
+            <div class="candle">
+              <div class="candle-wick"></div>
+              <div class="candle-flame"></div>
+              <div class="smoke-puff"></div>
+            </div>
+            <!-- Candle 2 -->
+            <div class="candle">
+              <div class="candle-wick"></div>
+              <div class="candle-flame"></div>
+              <div class="smoke-puff"></div>
+            </div>
+          </div>
+
+          <!-- Tingkat Atas Kue -->
+          <div class="cake-tier-top">
+            <div class="cake-frosting-top"></div>
+          </div>
+
+          <!-- Tingkat Bawah Kue -->
+          <div class="cake-tier-bottom">
+            <div class="cake-frosting-bottom"></div>
+          </div>
+
+          <!-- Piring Kue -->
+          <div class="cake-plate"></div>
+        </div>
+
+        <div class="cake-actions">
+          <button id="btn-blow-candle" class="btn-blow">
+            <i class="fa-solid fa-wind"></i> Tiup Lilin Sekarang
+          </button>
+        </div>
+
+        <!-- Banner Ucapan Setelah Lilin Ditiup -->
+        <div id="cake-wish-banner" class="cake-wish-banner">
+          🎉 <strong>YAAAY! Lilin Berhasil Ditiup!</strong><br>
+          Semoga semua harapan, impian besar, dan doa Riki di usia 23 tahun ini diijabah oleh Tuhan Yang Maha Kuasa.
+          <em>May your chapter 23 be your happiest and most successful chapter yet! 🌟💙</em>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       6. MEMORY GALLERY & MOMENTS TIMELINE (Dynamic Upload & Lightbox)
+       ========================================================================= -->
+  <section id="gallery-section" class="section-block">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Memories &amp; Milestones</span>
+        <h2 class="section-title">Galeri Jejak Kenangan</h2>
+        <p class="section-desc">Setiap detik bersamamu adalah potongan memori yang selalu ingin kusimpan selamanya.</p>
+
+        <!-- Tombol Tambah Foto Otomatis (Pigura bertambah otomatis sesuai foto yang ditambah) -->
+        <div class="gallery-actions-bar">
+          <button type="button" id="btn-open-upload-modal" class="btn-add-moment">
+            <i class="fa-solid fa-plus-circle"></i>
+            <span>+ Tambah Foto Kenangan Baru</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Grid Galeri Foto Dinamis (Dikelola otomatis oleh JavaScript) -->
+      <div class="gallery-grid" id="gallery-grid">
+        <!-- Kartu galeri akan bertambah otomatis sesuai foto yang ditambahkan -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Modal Upload / Edit Foto Kenangan -->
+  <div id="upload-modal" class="upload-modal">
+    <div class="upload-modal-content">
+      <button type="button" id="upload-modal-close" class="modal-close-btn">&times;</button>
+      <div class="modal-header">
+        <span class="modal-tag"><i class="fa-solid fa-sparkles"></i> Abadikan Momen</span>
+        <h3 class="modal-title" id="modal-title">Tambah Foto Kenangan Baru 📸</h3>
+        <p class="modal-desc" id="modal-desc">Unggah foto baru bersama Riki, pigura foto baru akan otomatis bertambah ke
+          galeri!</p>
+      </div>
+
+      <form id="upload-photo-form">
+        <!-- Area Drag & Drop / Pilih Foto -->
+        <div class="upload-dropzone" id="upload-dropzone">
+          <input type="file" id="input-photo-file" accept="image/*" class="file-hidden">
+
+          <div class="dropzone-idle" id="dropzone-idle">
+            <i class="fa-solid fa-images dropzone-icon"></i>
+            <p class="dropzone-text"><strong>Klik untuk pilih foto</strong> atau seret foto ke sini</p>
+            <span class="dropzone-hint">Format: JPG, PNG, WEBP, GIF</span>
+          </div>
+
+          <div class="dropzone-preview" id="dropzone-preview" style="display:none;">
+            <img id="preview-img-tag" src="" alt="Pratinjau Foto">
+            <button type="button" id="btn-remove-preview" class="btn-remove-preview">
+              <i class="fa-solid fa-rotate-left"></i> Ganti Foto
+            </button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="input-photo-title" class="form-label">Judul Momen <span
+              style="color:var(--gold-accent)">*</span></label>
+          <input type="text" id="input-photo-title" class="form-input"
+            placeholder="Contoh: Kencan Pertama / Liburan Pantai" required maxlength="80">
+        </div>
+
+        <div class="form-group">
+          <label for="input-photo-badge" class="form-label">Label Kategori</label>
+          <input type="text" id="input-photo-badge" class="form-input"
+            placeholder="Contoh: Kencan Manis / Roadtrip / Ulang Tahun" maxlength="30">
+        </div>
+
+        <div class="form-group">
+          <label for="input-photo-desc" class="form-label">Cerita Singkat / Caption</label>
+          <textarea id="input-photo-desc" class="form-textarea"
+            placeholder="Tuliskan cerita manis atau memori singkat dari foto ini..." maxlength="500"></textarea>
+        </div>
+
+        <button type="submit" id="btn-submit-photo" class="btn-submit-photo">
+          <i class="fa-solid fa-cloud-arrow-up"></i> Simpan ke Galeri
+        </button>
+
+        <div id="upload-feedback" class="form-feedback"></div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal Lightbox Galeri -->
+  <div id="lightbox-modal" class="lightbox-modal">
+    <div class="lightbox-content">
+      <button id="lightbox-close" class="lightbox-close">&times;</button>
+      <img id="lightbox-img" src="" alt="Zoom Foto" class="lightbox-img">
+      <div id="lightbox-caption" class="lightbox-caption"></div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       7. WISH BOX & PRAYER WALL (100% PURE JAVASCRIPT & LOCAL STORAGE)
+       ========================================================================= -->
+  <section id="wish-section" class="section-block">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Leave Your Love</span>
+        <h2 class="section-title">Wish Box &amp; Doa untuk Riki</h2>
+        <p class="section-desc">Kirimkan doa, harapan tulus, dan ucapan manismu untuk menghiasi lembaran usianya yang
+          ke-23.</p>
+      </div>
+
+      <div class="wish-container">
+        <!-- Form Pengiriman Ucapan -->
+        <div class="glass-panel wish-form-panel">
+          <form id="wish-form">
+            <div class="form-group">
+              <label for="wish-name" class="form-label">Nama Kamu / Panggilan</label>
+              <input type="text" id="wish-name" class="form-input"
+                placeholder="Contoh: Your Secret Admirer / Teman Dekat" maxlength="50" autocomplete="off">
+            </div>
+
+            <div class="form-group">
+              <label for="wish-message" class="form-label">Doa &amp; Ucapan untuk Riki <span
+                  style="color:var(--gold-accent)">*</span></label>
+              <textarea id="wish-message" class="form-textarea"
+                placeholder="Tuliskan ucapan dan harapan terbaikmu untuk Riki Baihaki di sini..." required></textarea>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Pilih Simbol Doa</label>
+              <div class="emoji-selector">
+                <label class="emoji-option">
+                  <input type="radio" name="reaction" value="💙" checked>
+                  <span class="emoji-bubble">💙</span>
+                </label>
+                <label class="emoji-option">
+                  <input type="radio" name="reaction" value="✨">
+                  <span class="emoji-bubble">✨</span>
+                </label>
+                <label class="emoji-option">
+                  <input type="radio" name="reaction" value="🎂">
+                  <span class="emoji-bubble">🎂</span>
+                </label>
+                <label class="emoji-option">
+                  <input type="radio" name="reaction" value="🥂">
+                  <span class="emoji-bubble">🥂</span>
+                </label>
+                <label class="emoji-option">
+                  <input type="radio" name="reaction" value="🚀">
+                  <span class="emoji-bubble">🚀</span>
+                </label>
+                <label class="emoji-option">
+                  <input type="radio" name="reaction" value="🤍">
+                  <span class="emoji-bubble">🤍</span>
+                </label>
+              </div>
+            </div>
+
+            <button type="submit" id="btn-submit-wish" class="btn-submit-wish">
+              <i class="fa-solid fa-paper-plane"></i> Kirimkan Ucapan
+            </button>
+
+            <div id="form-feedback" class="form-feedback"></div>
+          </form>
+        </div>
+
+        <!-- Display Wall Ucapan (Dikelola otomatis via JavaScript) -->
+        <div class="glass-panel wish-wall-panel">
+          <div class="wish-wall-header">
+            <h3 class="wish-wall-title">
+              <i class="fa-solid fa-comments" style="color: var(--ice-blue);"></i> Wall of Wishes
+            </h3>
+            <span id="wish-count-badge" class="wish-count-badge">2 Ucapan</span>
+          </div>
+
+          <div id="wish-list" class="wish-list">
+            <!-- Wish Item 1 -->
+            <div class="wish-item">
+              <div class="wish-meta">
+                <div class="wish-author">
+                  <span class="wish-emoji">💙</span>
+                  <span class="wish-name">Your Love 💙</span>
+                </div>
+                <span class="wish-time">29 Okt 2026, 00:01 WIB</span>
+              </div>
+              <p class="wish-text">Selamat ulang tahun yang ke-23, Riki Baihaki! Semoga di usia baru ini kamu selalu
+                diberikan kesehatan, kelapangan rezeki, dan jalan yang dimudahkan untuk menggapai mimpi-mimpimu. Terima
+                kasih sudah selalu jadi tempat ternyaman dan alasan untuk tersenyum setiap hari. Always proud of you,
+                today and forever! ✨</p>
+            </div>
+
+            <!-- Wish Item 2 -->
+            <div class="wish-item">
+              <div class="wish-meta">
+                <div class="wish-author">
+                  <span class="wish-emoji">🎂</span>
+                  <span class="wish-name">Bagas &amp; Teman-teman</span>
+                </div>
+                <span class="wish-time">29 Okt 2026, 08:15 WIB</span>
+              </div>
+              <p class="wish-text">Happy 23rd birthday Riki! Panjang umur, makin bersinar kariernya, dan traktirannya
+                jangan lupa ya bro! 🥳🎂</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       8. FOOTER
+       ========================================================================= -->
+  <footer class="footer-section">
+    <div class="container">
+      <p class="footer-text">
+        Crafted with infinite <span id="footer-heart" class="footer-heart" title="Klik untuk memunculkan cinta!"><i
+            class="fa-solid fa-heart"></i></span> for <strong>Riki Baihaki</strong>
+      </p>
+      <p class="footer-sub">
+        Happy 23rd Birthday • May all your wishes come true across the stars &amp; galaxies 🌌✨
+      </p>
+    </div>
+  </footer>
+
+  <!-- Canvas Confetti Library via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <!-- Main JavaScript File -->
+  <script src="assets/js/main.js"></script>
+</body>
+
+</html>

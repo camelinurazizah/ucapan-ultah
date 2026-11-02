@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="100%" height="100%">
+  <defs>
+    <linearGradient id="skyGrad4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#020817"/>
+      <stop offset="50%" stop-color="#0a194f"/>
+      <stop offset="100%" stop-color="#1e3a8a"/>
+    </linearGradient>
+    <linearGradient id="goldNumber" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffe6a7"/>
+      <stop offset="50%" stop-color="#ffd166"/>
+      <stop offset="100%" stop-color="#f77f00"/>
+    </linearGradient>
+    <radialGradient id="cakeGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#90e0ef" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#020817" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="100%" height="100%" fill="url(#skyGrad4)"/>
+
+  <!-- Milestone Badge & Glowing 23 -->
+  <circle cx="400" cy="420" r="150" fill="url(#cakeGlow)"/>
+  
+  <text x="400" y="470" fill="url(#goldNumber)" font-family="'Plus Jakarta Sans', sans-serif" font-size="160" font-weight="900" text-anchor="middle" filter="drop-shadow(0px 8px 24px rgba(255,209,102,0.4))">23</text>
+
+  <!-- Crown icon above 23 -->
+  <path d="M340 320 L360 345 L400 310 L440 345 L460 320 L455 355 L345 355 Z" fill="#ffd166" opacity="0.95"/>
+  <circle cx="340" cy="316" r="4" fill="#ffffff"/>
+  <circle cx="400" cy="306" r="5" fill="#ffffff"/>
+  <circle cx="460" cy="316" r="4" fill="#ffffff"/>
+
+  <g transform="translate(400, 560)" text-anchor="middle">
+    <text y="20" fill="#ffffff" font-family="'Plus Jakarta Sans', sans-serif" font-size="28" font-weight="700" letter-spacing="2">CHAPTER 23: RIKI BAIHAKI</text>
+    <text y="55" fill="#caf0f8" font-family="'Plus Jakarta Sans', sans-serif" font-size="18" letter-spacing="1">"Wiser, Stronger, Loved by Me"</text>
+    <text y="90" fill="#ffd166" font-family="'Plus Jakarta Sans', sans-serif" font-size="15" letter-spacing="1">Ganti dengan fotomu &amp; Riki di assets/img/photo4.jpg</text>
+  </g>
+
+  <!-- Modern aesthetic border -->
+  <rect x="25" y="25" width="750" height="950" rx="20" fill="none" stroke="#90e0ef" stroke-width="1.5" stroke-opacity="0.3" stroke-dasharray="8 6"/>
+</svg>
+
