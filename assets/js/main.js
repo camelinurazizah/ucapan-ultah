@@ -618,34 +618,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  // Bersihkan data duplikat di IndexedDB secara otomatis
+  // Bersihkan data duplikat lama di IndexedDB (HANYA record lama yang berawalan 'moment_')
   const cleanDuplicateMoments = async () => {
     try {
       const all = await getCustomMoments();
-      const seenTitles = new Set();
-
-      // Tandai judul permanent asli
-      permanentMoments.forEach((pm) => {
-        seenTitles.add(normalizeTitle(pm.title));
-      });
-
       for (const item of all) {
-        const norm = normalizeTitle(item.title);
-        if (!norm) continue;
-
-        // Jika judul ini sama dengan salah satu foto permanent bawaan,
-        // hapus data lama di IndexedDB agar browser selalu menggunakan file foto asli jernih beresolusi tinggi!
-        const matchesPermanent = permanentMoments.some(
-          (pm) => normalizeTitle(pm.title) === norm
-        );
-
-        if (matchesPermanent) {
-          await deleteCustomMoment(item.id);
-        } else if (seenTitles.has(norm)) {
-          // Jika ada lebih dari satu foto dengan judul sama di custom moments
-          await deleteCustomMoment(item.id);
-        } else {
-          seenTitles.add(norm);
+        // HANYA hapus record dengan id 'moment_' yang menduplikasi judul permanent bawaan
+        // JANGAN PERNAH hapus record 'permanent_' karena itu adalah editan pengguna!
+        if (item.id && item.id.startsWith('moment_')) {
+          const norm = normalizeTitle(item.title);
+          const matchesPermanent = permanentMoments.some(
+            (pm) => normalizeTitle(pm.title) === norm
+          );
+          if (matchesPermanent) {
+            await deleteCustomMoment(item.id);
+          }
         }
       }
     } catch (e) {
@@ -775,16 +762,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const customMoments = await getCustomMoments();
 
-    // 1. Ambil 6 momen permanen (selalu gunakan file foto asli jernih resolusi tinggi dari assets/img/photoX.jpg)
+    // 1. Ambil 6 momen permanen (jika pengguna mengeditnya, terapkan perubahan foto, judul, badge, & cerita)
     const displayPermanent = permanentMoments.map((pm) => {
-      const normPmTitle = normalizeTitle(pm.title);
-      const custom = customMoments.find((cm) => 
-        cm.id === pm.id || normalizeTitle(cm.title) === normPmTitle
-      );
+      const custom = customMoments.find((cm) => cm.id === pm.id);
       if (custom) {
         return {
           id: pm.id,
-          image: pm.image, // Foto asli beresolusi tinggi (bebas dari tombol screenshot)
+          image: custom.image || pm.image,
           badge: custom.badge || pm.badge,
           title: custom.title || pm.title,
           desc: custom.desc || pm.desc,
