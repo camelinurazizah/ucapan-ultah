@@ -2,6 +2,7 @@
  * ============================================================================
  * MAIN.JS - 100% Pure Client-Side JavaScript
  * Special 23rd Birthday Website for Riki Baihaki (HTML + CSS + JS Murni)
+ * Fitur: Multi-Page Stepper (Click-Based), Foto Permanen Hosting, Virtual Cake, Wish Box
  * ============================================================================
  */
 
@@ -185,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
         audioCtx.resume();
       }
 
-      // Melodi piano nada santai dan romantis
+      // Melodi nada romantis
       const notes = [
         261.63, 329.63, 392.0, 523.25, // C4, E4, G4, C5
         293.66, 349.23, 440.0, 587.33, // D4, F4, A4, D5
@@ -233,6 +234,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const updateAudioUI = (playing) => {
     isPlaying = playing;
+    if (!audioWidget || !audioDisc || !btnAudioToggle) return;
     if (playing) {
       audioWidget.classList.add('playing');
       audioDisc.classList.add('spinning');
@@ -279,8 +281,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  btnAudioToggle.addEventListener('click', toggleMusic);
-  audioDisc.addEventListener('click', toggleMusic);
+  if (btnAudioToggle) btnAudioToggle.addEventListener('click', toggleMusic);
+  if (audioDisc) audioDisc.addEventListener('click', toggleMusic);
 
   // --------------------------------------------------------------------------
   // 3. CURTAIN OPENING & SURPRISE TRIGGER
@@ -289,7 +291,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnOpenSurprise = document.getElementById('btn-open-surprise');
   const typewriterTarget = document.getElementById('typewriter-title');
 
-  const runTypewriter = (text, element, speed = 80) => {
+  const runTypewriter = (text, element, speed = 75) => {
     if (!element) return;
     element.textContent = '';
     let i = 0;
@@ -303,14 +305,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }, speed);
   };
 
-  btnOpenSurprise.addEventListener('click', () => {
-    curtain.classList.add('hidden');
-    playMusic();
-    fireGrandConfetti();
-    setTimeout(() => {
-      runTypewriter('Happy 23rd Birthday, Riki Baihaki! 💙', typewriterTarget, 65);
-    }, 600);
-  });
+  if (btnOpenSurprise && curtain) {
+    btnOpenSurprise.addEventListener('click', () => {
+      curtain.classList.add('hidden');
+      playMusic();
+      fireGrandConfetti();
+      goToPage(1);
+      setTimeout(() => {
+        runTypewriter('Happy 23rd Birthday, Riki Baihaki! 💙', typewriterTarget, 65);
+      }, 500);
+    });
+  }
 
   // --------------------------------------------------------------------------
   // 4. CONFETTI GENERATORS (Menggunakan Canvas Confetti)
@@ -351,7 +356,87 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // --------------------------------------------------------------------------
-  // 5. INTERACTIVE VIRTUAL BIRTHDAY CAKE & TIUP LILIN
+  // 5. STORY STEPPER & PAGINATION ENGINE (Click-Based Multi-Step Navigation)
+  // Tidak perlu scroll ke bawah, navigasi sepenuhnya melalui tombol klik!
+  // --------------------------------------------------------------------------
+  const storyPages = document.querySelectorAll('.story-page');
+  const storyTabs = document.querySelectorAll('.story-tab');
+  const currentPageText = document.getElementById('current-page-text');
+  let currentPage = 1;
+  const totalPages = storyPages.length || 5;
+
+  const goToPage = (pageNum) => {
+    if (pageNum < 1) pageNum = 1;
+    if (pageNum > totalPages) pageNum = totalPages;
+    currentPage = pageNum;
+
+    // Aktifkan slide yang sesuai
+    storyPages.forEach((page, index) => {
+      const pageIndex = index + 1;
+      if (pageIndex === pageNum) {
+        page.classList.add('active');
+      } else {
+        page.classList.remove('active');
+      }
+    });
+
+    // Perbarui tab atas
+    storyTabs.forEach((tab) => {
+      const tabNum = parseInt(tab.dataset.page);
+      if (tabNum === pageNum) {
+        tab.classList.add('active');
+        tab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      } else {
+        tab.classList.remove('active');
+      }
+    });
+
+    // Perbarui badge nomor halaman
+    if (currentPageText) {
+      currentPageText.textContent = `Halaman ${pageNum} / ${totalPages}`;
+    }
+
+    // Scroll mulus ke bagian atas halaman
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Efek khusus jika masuk ke halaman Lilin atau Galeri
+    if (pageNum === 3 && candlesBlown) {
+      fireStarConfetti();
+    }
+  };
+
+  // Klik tab di navbar atas
+  storyTabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      const pageNum = parseInt(tab.dataset.page);
+      if (!isNaN(pageNum)) goToPage(pageNum);
+    });
+  });
+
+  // Klik tombol navigasi (Halaman Selanjutnya / Halaman Sebelumnya)
+  document.querySelectorAll('[data-goto]').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetPage = parseInt(btn.dataset.goto);
+      if (!isNaN(targetPage)) goToPage(targetPage);
+    });
+  });
+
+  // Navigasi keyboard (Panah Kanan = Selanjutnya, Panah Kiri = Sebelumnya)
+  document.addEventListener('keydown', (e) => {
+    // Abaikan jika user sedang mengetik di input / textarea
+    const activeTag = document.activeElement ? document.activeElement.tagName.toLowerCase() : '';
+    if (activeTag === 'input' || activeTag === 'textarea') return;
+
+    if (e.key === 'ArrowRight') {
+      if (currentPage < totalPages) goToPage(currentPage + 1);
+    } else if (e.key === 'ArrowLeft') {
+      if (currentPage > 1) goToPage(currentPage - 1);
+    }
+  });
+
+  // --------------------------------------------------------------------------
+  // 6. INTERACTIVE VIRTUAL BIRTHDAY CAKE & TIUP LILIN
   // --------------------------------------------------------------------------
   const btnBlowCandle = document.getElementById('btn-blow-candle');
   const flames = document.querySelectorAll('.candle-flame');
@@ -371,13 +456,13 @@ document.addEventListener('DOMContentLoaded', () => {
         fireGrandConfetti();
         setTimeout(fireStarConfetti, 400);
 
-        cakeWishBanner.style.display = 'block';
+        if (cakeWishBanner) cakeWishBanner.style.display = 'block';
         btnBlowCandle.innerHTML = '<i class="fa-solid fa-fire-flame-curved"></i> Nyalakan Lilin Lagi';
         btnBlowCandle.classList.add('re-light');
         candlesBlown = true;
       } else {
         flames.forEach((flame) => flame.classList.remove('blown-out'));
-        cakeWishBanner.style.display = 'none';
+        if (cakeWishBanner) cakeWishBanner.style.display = 'none';
 
         btnBlowCandle.innerHTML = '<i class="fa-solid fa-wind"></i> Tiup Lilin Sekarang';
         btnBlowCandle.classList.remove('re-light');
@@ -387,41 +472,42 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // --------------------------------------------------------------------------
-  // 6. DYNAMIC GALLERY ENGINE (IndexedDB + 3D Tilt + Lightbox)
-  // Pigura bertambah dinamis setiap kali menambah foto baru
+  // 7. DYNAMIC GALLERY ENGINE (PERMANENT PHOTOS FOR HOSTING + INDEXEDDB)
+  // Foto & Deskripsi permanen disimpan langsung sebagai aset fisik file gambar
+  // Tidak akan pernah hilang saat dihosting di server / dibuka di perangkat Riki!
   // --------------------------------------------------------------------------
-  const defaultMoments = [
+  const permanentMoments = [
     {
-      id: 'default_1',
-      image: 'assets/img/photo1.svg',
-      badge: 'Momen Awal',
-      title: 'Awal dari Segalanya',
-      desc: 'Pertemuan yang tak pernah kusangka akan menjadi salah satu anugerah terindah dalam hidupku.',
-      is_default: true
+      id: 'permanent_1',
+      image: 'assets/img/photo1.jpg',
+      badge: 'Kencan Manis',
+      title: 'Kencan Makan Terindah',
+      desc: 'Ini foto kita berdua disela ketika kita sedang menunggu makanan datang yaitu pecel ayam , momen ini lah makanan terasa menjadi enak karena makan nya bersama mu',
+      is_permanent: true
     },
     {
-      id: 'default_2',
-      image: 'assets/img/photo2.svg',
-      badge: 'Adventure',
-      title: 'Petualangan & Perjalanan',
-      desc: 'Menikmati jalanan malam, senja, dan pemandangan baru, selama tanganmu yang menggenggamku.',
-      is_default: true
+      id: 'permanent_2',
+      image: 'assets/img/photo2.jpg',
+      badge: 'Nonton Date Romantis',
+      title: 'Nonton',
+      desc: 'Di hari libur kita ber dua menyempatkan nonton bioskop bersama dengan bahagia dan romatis',
+      is_permanent: true
     },
     {
-      id: 'default_3',
-      image: 'assets/img/photo3.svg',
-      badge: 'Warm Nights',
-      title: 'Tawa & Obrolan Kopi',
-      desc: 'Membicarakan masa depan, hal-hal konyol, hingga mimpi-mimpi besar yang sedang kita perjuangkan.',
-      is_default: true
+      id: 'permanent_3',
+      image: 'assets/img/photo3.jpg',
+      badge: 'Idul Fitri coupel 2',
+      title: 'Idul Fitri 2',
+      desc: 'Ini adalah momen dimana kita merayakan idul fitri coupel ke 2 kalinya bersama kamu love',
+      is_permanent: true
     },
     {
-      id: 'default_4',
-      image: 'assets/img/photo4.svg',
-      badge: 'Age 23',
-      title: 'Chapter 23: Riki Baihaki',
-      desc: 'Sosok pria dewasa, bijak, dan penuh kasih yang semakin hari semakin membuatku bangga.',
-      is_default: true
+      id: 'permanent_4',
+      image: 'assets/img/photo4.jpg',
+      badge: 'Idul Fitri Coupel 1',
+      title: 'Lebaran Idul Fitri 1',
+      desc: 'ini foto momen kita berdua memakai baju coupel waktu lebaran pertama kali nya , lucu kan kitaaa',
+      is_permanent: true
     }
   ];
 
@@ -556,7 +642,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (img && lightboxModal) {
         lightboxImg.src = img.src;
         lightboxImg.alt = img.alt;
-        lightboxCaption.innerHTML = `<strong>${title}</strong><br><span style="opacity:0.8;font-size:0.9em;">${desc}</span>`;
+        lightboxCaption.innerHTML = `<strong>${title}</strong><br><span style="opacity:0.85;font-size:0.9em;">${desc}</span>`;
         lightboxModal.classList.add('active');
       }
     });
@@ -571,7 +657,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // Tombol Hapus Pigura / Foto
+    // Tombol Hapus Pigura (hanya untuk foto tambahan baru)
     const deleteBtn = card.querySelector('.gallery-delete-btn');
     if (deleteBtn) {
       deleteBtn.addEventListener('click', async (e) => {
@@ -591,14 +677,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const card = document.createElement('div');
     card.className = 'gallery-card';
     card.dataset.id = item.id;
+    const isPermanent = item.id.startsWith('permanent_') || item.is_permanent;
+
     card.innerHTML = `
       <div class="gallery-card-actions">
         <button type="button" class="gallery-action-btn gallery-edit-btn" title="Ubah / Edit Foto &amp; Cerita" data-id="${item.id}">
           <i class="fa-solid fa-pen-to-square"></i> Ubah
         </button>
-        <button type="button" class="gallery-action-btn gallery-delete-btn" title="Hapus Pigura Ini" data-id="${item.id}">
-          <i class="fa-solid fa-trash-can"></i>
-        </button>
+        ${
+          !isPermanent
+            ? `<button type="button" class="gallery-action-btn gallery-delete-btn" title="Hapus Pigura Ini" data-id="${item.id}">
+                 <i class="fa-solid fa-trash-can"></i>
+               </button>`
+            : ''
+        }
       </div>
       <div class="gallery-thumb-wrap">
         <img src="${item.image}" alt="${escapeHtml(item.title)}" class="gallery-thumb" loading="lazy">
@@ -613,30 +705,35 @@ document.addEventListener('DOMContentLoaded', () => {
     return card;
   };
 
-  // Render Galeri: Menampilkan semua pigura foto yang diunggah pengguna
-  // Jika belum ada foto sama sekali, tampilkan 4 placeholder default
+  // Render Galeri:
+  // Selalu menampilkan 4 foto permanen asli + menggabungkan foto baru yang ditambahkan user
   const renderGallery = async () => {
     if (!galleryGrid) return;
 
     const customMoments = await getCustomMoments();
 
-    galleryGrid.innerHTML = '';
+    // 1. Ambil 4 momen permanen (jika user pernah mengeditnya, gunakan data editan dari IndexedDB)
+    const displayPermanent = permanentMoments.map((pm) => {
+      const custom = customMoments.find((cm) => cm.id === pm.id);
+      return custom ? custom : pm;
+    });
 
-    if (customMoments.length > 0) {
-      customMoments.forEach((item) => {
-        galleryGrid.appendChild(createCardElement(item));
-      });
-    } else {
-      defaultMoments.forEach((item) => {
-        galleryGrid.appendChild(createCardElement(item));
-      });
-    }
+    // 2. Tambahkan pigura foto kenangan baru yang ditambahkan user via "+ Tambah Foto Kenangan Baru"
+    const extraMoments = customMoments.filter((cm) => !cm.id.startsWith('permanent_'));
+
+    const allMoments = [...displayPermanent, ...extraMoments];
+
+    galleryGrid.innerHTML = '';
+    allMoments.forEach((item) => {
+      galleryGrid.appendChild(createCardElement(item));
+    });
   };
 
+  // Jalankan render awal galeri
   renderGallery();
 
   // --------------------------------------------------------------------------
-  // MODAL UPLOAD & EDIT FOTO (Dynamic Add / In-Place Edit)
+  // 8. MODAL UPLOAD & EDIT FOTO (Dynamic Add / In-Place Edit)
   // --------------------------------------------------------------------------
   const uploadModal = document.getElementById('upload-modal');
   const btnOpenUpload = document.getElementById('btn-open-upload-modal');
@@ -655,7 +752,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentBase64Image = '';
   let editingMomentId = null;
 
-  // Buka modal untuk mode TAMBAH foto baru (pigura bertambah)
+  // Buka modal untuk mode TAMBAH foto baru (pigura bertambah otomatis)
   const openAddModal = () => {
     if (!uploadModal) return;
     editingMomentId = null;
@@ -681,7 +778,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let moment = await getMomentById(photoId);
     if (!moment) {
-      moment = defaultMoments.find((d) => d.id === photoId);
+      moment = permanentMoments.find((d) => d.id === photoId);
     }
 
     if (moment) {
@@ -756,8 +853,10 @@ document.addEventListener('DOMContentLoaded', () => {
     reader.onload = (e) => {
       currentBase64Image = e.target.result;
       previewImgTag.src = currentBase64Image;
-      dropzoneIdle.style.display = 'none';
-      dropzonePreview.style.display = 'flex';
+      if (dropzoneIdle && dropzonePreview) {
+        dropzoneIdle.style.display = 'none';
+        dropzonePreview.style.display = 'flex';
+      }
     };
     reader.readAsDataURL(file);
   };
@@ -776,9 +875,11 @@ document.addEventListener('DOMContentLoaded', () => {
       e.stopPropagation();
       if (fileInput) fileInput.value = '';
       currentBase64Image = '';
-      dropzoneIdle.style.display = 'block';
-      dropzonePreview.style.display = 'none';
-      previewImgTag.src = '';
+      if (dropzoneIdle && dropzonePreview) {
+        dropzoneIdle.style.display = 'block';
+        dropzonePreview.style.display = 'none';
+        previewImgTag.src = '';
+      }
     });
   }
 
@@ -840,8 +941,8 @@ document.addEventListener('DOMContentLoaded', () => {
           badge: badgeVal,
           title: titleVal,
           desc: descVal,
-          is_default: false,
-          created_at: new Date().toISOString()
+          is_permanent: editingMomentId.startsWith('permanent_'),
+          updated_at: new Date().toISOString()
         };
         await saveCustomMoment(updatedMoment);
         showUploadFeedback('✨ Pigura foto berhasil diperbarui!', 'success');
@@ -853,7 +954,7 @@ document.addEventListener('DOMContentLoaded', () => {
           badge: badgeVal,
           title: titleVal,
           desc: descVal,
-          is_default: false,
+          is_permanent: false,
           created_at: new Date().toISOString()
         };
         await saveCustomMoment(newMoment);
@@ -882,7 +983,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // --------------------------------------------------------------------------
-  // 7. WISH BOX & PRAYER WALL (100% Client-Side LocalStorage Persistence)
+  // 9. WISH BOX & PRAYER WALL (100% Client-Side LocalStorage Persistence)
   // --------------------------------------------------------------------------
   function escapeHtml(str) {
     if (!str) return '';
@@ -955,7 +1056,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const wishForm = document.getElementById('wish-form');
   const wishList = document.getElementById('wish-list');
   const wishCountBadge = document.getElementById('wish-count-badge');
-  const submitButton = document.getElementById('btn-submit-wish');
 
   const renderWishes = () => {
     if (!wishList) return;
@@ -1043,7 +1143,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // --------------------------------------------------------------------------
-  // 8. INTERACTIVE FLOATING HEARTS (FOOTER EASTER EGG)
+  // 10. INTERACTIVE FLOATING HEARTS (FOOTER EASTER EGG)
   // --------------------------------------------------------------------------
   const footerHeart = document.getElementById('footer-heart');
   if (footerHeart) {

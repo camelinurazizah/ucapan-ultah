@@ -366,10 +366,231 @@ body {
 }
 
 /* --------------------------------------------------------------------------
-   5. Hero Section
+   5. Story Top Navigation Stepper & Pagination System
+   -------------------------------------------------------------------------- */
+.story-navbar {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 900;
+  background: rgba(4, 10, 24, 0.88);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-bottom: 1px solid var(--glass-border);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.5);
+  transition: var(--transition-smooth);
+}
+
+.story-nav-container {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.story-nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+.story-nav-brand i {
+  color: var(--gold-accent);
+  font-size: 1.1rem;
+}
+
+.story-tabs {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding: 0.2rem 0;
+  scrollbar-width: none;
+}
+
+.story-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.story-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  background: rgba(12, 28, 60, 0.6);
+  border: 1px solid var(--glass-border);
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: var(--transition-smooth);
+}
+
+.story-tab .tab-num {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(144, 224, 239, 0.15);
+  color: var(--ice-blue);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  transition: var(--transition-smooth);
+}
+
+.story-tab:hover {
+  background: rgba(0, 119, 182, 0.3);
+  border-color: var(--ice-blue);
+  color: #ffffff;
+}
+
+.story-tab.active {
+  background: linear-gradient(135deg, rgba(0, 119, 182, 0.7), rgba(0, 150, 199, 0.5));
+  border-color: var(--ice-blue);
+  color: #ffffff;
+  box-shadow: 0 0 15px rgba(0, 150, 199, 0.4);
+}
+
+.story-tab.active .tab-num {
+  background: var(--gold-accent);
+  color: #030712;
+}
+
+.story-page-indicator {
+  display: flex;
+  align-items: center;
+  padding: 0.35rem 0.9rem;
+  border-radius: 50px;
+  background: rgba(255, 209, 102, 0.12);
+  border: 1px solid rgba(255, 209, 102, 0.3);
+  color: var(--gold-accent);
+  font-size: 0.8rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* Story Page Containers (Multi-step Screen) */
+.story-page {
+  display: none;
+  min-height: calc(100vh - 120px);
+  padding: 2.5rem 0 4rem;
+}
+
+.story-page.active {
+  display: block;
+  animation: storyPageEnter 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes storyPageEnter {
+  0% {
+    opacity: 0;
+    transform: translateY(24px) scale(0.99);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Page Navigation Bar (Buttons at bottom of each slide) */
+.page-nav-bar {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin-top: 3.5rem;
+  padding-top: 2rem;
+  border-top: 1px dashed rgba(144, 224, 239, 0.25);
+  width: 100%;
+}
+
+.page-nav-bar.center {
+  justify-content: center;
+}
+
+.page-nav-bar.between {
+  justify-content: space-between;
+}
+
+.btn-page-nav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1.05rem 2.2rem;
+  border-radius: 50px;
+  font-size: 1.02rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition-bounce);
+  text-decoration: none;
+  border: none;
+  line-height: 1.35;
+  text-align: center;
+}
+
+.btn-page-nav strong {
+  font-size: 0.9rem;
+  color: var(--gold-accent);
+  margin-left: 0.3rem;
+  display: inline-block;
+}
+
+.btn-page-nav.btn-next {
+  background: linear-gradient(135deg, #0077b6, #0096c7 50%, #48cae4 100%);
+  color: #ffffff;
+  box-shadow: 0 10px 28px rgba(0, 150, 199, 0.45), 0 0 15px rgba(72, 202, 228, 0.25);
+}
+
+.btn-page-nav.btn-next:hover {
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 14px 36px rgba(0, 150, 199, 0.65), 0 0 25px rgba(255, 209, 102, 0.4);
+}
+
+.btn-page-nav.btn-prev {
+  background: rgba(12, 28, 60, 0.8);
+  color: var(--ice-glow);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: var(--glass-blur);
+}
+
+.btn-page-nav.btn-prev:hover {
+  background: rgba(18, 40, 84, 0.95);
+  border-color: var(--ice-blue);
+  color: #ffffff;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+.btn-page-nav.btn-restart {
+  background: linear-gradient(135deg, rgba(255, 209, 102, 0.15), rgba(0, 119, 182, 0.35));
+  border: 1px solid rgba(255, 209, 102, 0.5);
+  color: var(--gold-accent);
+}
+
+.btn-page-nav.btn-restart:hover {
+  background: linear-gradient(135deg, rgba(255, 209, 102, 0.3), rgba(0, 119, 182, 0.55));
+  color: #ffffff;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(255, 209, 102, 0.3);
+}
+
+/* --------------------------------------------------------------------------
+   6. Hero Section
    -------------------------------------------------------------------------- */
 .hero-section {
-  padding: 6rem 0 4rem;
+  padding: 3.5rem 0 2rem;
   text-align: center;
   position: relative;
 }
@@ -1563,8 +1784,42 @@ body {
    12. Responsive Design Adjustments
    -------------------------------------------------------------------------- */
 @media (max-width: 768px) {
+  .story-nav-brand {
+    display: none;
+  }
+  .story-nav-container {
+    padding: 0.5rem 0.8rem;
+    justify-content: center;
+  }
+  .story-tabs {
+    gap: 0.35rem;
+  }
+  .story-tab {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.75rem;
+  }
+  .story-tab .tab-label {
+    display: none;
+  }
+  .story-tab.active .tab-label {
+    display: inline;
+  }
+  .story-page-indicator {
+    display: none;
+  }
+  .page-nav-bar {
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+  }
+  .btn-page-nav {
+    width: 100%;
+    padding: 0.9rem 1.4rem;
+    font-size: 0.95rem;
+  }
   .hero-section {
-    padding: 4rem 0 3rem;
+    padding: 2.5rem 0 2rem;
   }
   .curtain-card {
     padding: 2.2rem 1.4rem;
@@ -1574,12 +1829,6 @@ body {
   }
   .letter-wrapper {
     padding: 2.2rem 1.5rem;
-  }
-  .letter-wax-seal {
-    right: 20px;
-    width: 48px;
-    height: 48px;
-    font-size: 1.15rem;
   }
   .floating-audio-widget {
     bottom: 1rem;
