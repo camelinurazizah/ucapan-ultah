@@ -766,9 +766,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const displayPermanent = permanentMoments.map((pm) => {
       const custom = customMoments.find((cm) => cm.id === pm.id);
       if (custom) {
+        // Hanya ganti gambar jika user mengunggah foto baru sendiri (Base64 data URL)
+        const isUploadedFile = custom.image && custom.image.startsWith('data:');
         return {
           id: pm.id,
-          image: custom.image || pm.image,
+          image: isUploadedFile ? custom.image : pm.image,
           badge: custom.badge || pm.badge,
           title: custom.title || pm.title,
           desc: custom.desc || pm.desc,
