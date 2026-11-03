@@ -475,6 +475,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // 7. DYNAMIC GALLERY ENGINE (PERMANENT PHOTOS FOR HOSTING + INDEXEDDB)
   // Foto & Deskripsi permanen disimpan langsung sebagai aset fisik file gambar
   // Tidak akan pernah hilang saat dihosting di server / dibuka di perangkat Riki!
+  // Menjamin SETIAP FOTO HANYA MUNCUL 1 KALI (TIDAK ADA FOTO DOBEL)
   // --------------------------------------------------------------------------
   const permanentMoments = [
     {
@@ -510,6 +511,14 @@ document.addEventListener('DOMContentLoaded', () => {
       is_permanent: true
     }
   ];
+
+  // Helper normalisasi judul teks agar pencocokan akurat tanpa terpengaruh spasi / huruf besar-kecil
+  const normalizeTitle = (str) => {
+    return (str || '')
+      .trim()
+      .toLowerCase()
+      .replace(/[\s\-_]+/g, ' ');
+  };
 
   // Helper IndexedDB untuk menyimpan foto kapasitas besar (hingga ratusan MB)
   const DB_NAME = 'RikiBirthdayGalleryDB';
@@ -590,6 +599,41 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (e) {
       console.error('IndexedDB delete error:', e);
       return false;
+    }
+  };
+
+  // Bersihkan data duplikat di IndexedDB secara otomatis
+  const cleanDuplicateMoments = async () => {
+    try {
+      const all = await getCustomMoments();
+      const seenTitles = new Set();
+
+      // Tandai judul permanent asli
+      permanentMoments.forEach((pm) => {
+        seenTitles.add(normalizeTitle(pm.title));
+      });
+
+      for (const item of all) {
+        const norm = normalizeTitle(item.title);
+        if (!norm) continue;
+
+        // Jika judul ini sama dengan salah satu foto permanent bawaan, dan id-nya berupa 'moment_...'
+        // maka hapus duplikatnya dari IndexedDB agar tidak dobel
+        const matchesPermanent = permanentMoments.some(
+          (pm) => normalizeTitle(pm.title) === norm
+        );
+
+        if (matchesPermanent && item.id && item.id.startsWith('moment_')) {
+          await deleteCustomMoment(item.id);
+        } else if (seenTitles.has(norm)) {
+          // Jika ada lebih dari satu foto dengan judul sama di custom moments
+          await deleteCustomMoment(item.id);
+        } else {
+          seenTitles.add(norm);
+        }
+      }
+    } catch (e) {
+      console.warn('Cleanup duplicate error:', e);
     }
   };
 
@@ -706,25 +750,50 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // Render Galeri:
-  // Selalu menampilkan 4 foto permanen asli + menggabungkan foto baru yang ditambahkan user
+  // Menjamin SETIAP FOTO HANYA MUNCUL 1 KALI (TIDAK ADA FOTO DOBEL / DUPLIKAT)
   const renderGallery = async () => {
     if (!galleryGrid) return;
 
+    // Bersihkan duplikat yang mungkin ada di IndexedDB terlebih dahulu
+    await cleanDuplicateMoments();
+
     const customMoments = await getCustomMoments();
 
-    // 1. Ambil 4 momen permanen (jika user pernah mengeditnya, gunakan data editan dari IndexedDB)
+    // 1. Ambil 4 momen permanen (jika user pernah mengeditnya, gunakan data editan)
     const displayPermanent = permanentMoments.map((pm) => {
-      const custom = customMoments.find((cm) => cm.id === pm.id);
-      return custom ? custom : pm;
+      const normPmTitle = normalizeTitle(pm.title);
+      const custom = customMoments.find((cm) => 
+        cm.id === pm.id || normalizeTitle(cm.title) === normPmTitle
+      );
+      return custom ? Object.assign({}, pm, custom, { id: pm.id, is_permanent: true }) : pm;
     });
 
-    // 2. Tambahkan pigura foto kenangan baru yang ditambahkan user via "+ Tambah Foto Kenangan Baru"
-    const extraMoments = customMoments.filter((cm) => !cm.id.startsWith('permanent_'));
+    // 2. Filter foto tambahan baru yang BENAR-BENAR BARU (judulnya belum ada di permanentMoments)
+    const permanentTitles = new Set(permanentMoments.map((pm) => normalizeTitle(pm.title)));
+    const extraMoments = customMoments.filter((cm) => {
+      if (cm.id && cm.id.startsWith('permanent_')) return false;
+      const normTitle = normalizeTitle(cm.title);
+      return !permanentTitles.has(normTitle);
+    });
 
+    // 3. Gabungkan dan lakukan de-duplikasi ketat agar TIDAK BISA ADA FOTO GANDA
     const allMoments = [...displayPermanent, ...extraMoments];
+    const uniqueMoments = [];
+    const seenTitles = new Set();
 
-    galleryGrid.innerHTML = '';
     allMoments.forEach((item) => {
+      const normTitle = normalizeTitle(item.title);
+      if (normTitle && !seenTitles.has(normTitle)) {
+        seenTitles.add(normTitle);
+        uniqueMoments.push(item);
+      } else if (!normTitle) {
+        uniqueMoments.push(item);
+      }
+    });
+
+    // Render kartu-kartu unik ke layar (bersihkan grid terlebih dahulu)
+    galleryGrid.innerHTML = '';
+    uniqueMoments.forEach((item) => {
       galleryGrid.appendChild(createCardElement(item));
     });
   };
@@ -948,6 +1017,19 @@ document.addEventListener('DOMContentLoaded', () => {
         showUploadFeedback('✨ Pigura foto berhasil diperbarui!', 'success');
       } else {
         // Mode TAMBAH: Tambahkan pigura baru ke galeri
+        // Cek apakah judul momen baru sudah pernah ada agar tidak dobel
+        const existingMoments = await getCustomMoments();
+        const normNewTitle = normalizeTitle(titleVal);
+        const duplicatePermanent = permanentMoments.some((pm) => normalizeTitle(pm.title) === normNewTitle);
+        const duplicateCustom = existingMoments.some((cm) => normalizeTitle(cm.title) === normNewTitle);
+
+        if (duplicatePermanent || duplicateCustom) {
+          showUploadFeedback('Foto dengan judul ini sudah ada di galeri! Gunakan judul lain atau klik "Ubah" pada pigura terkait.', 'error');
+          btnSubmitPhoto.disabled = false;
+          btnSubmitPhoto.innerHTML = originalBtnHtml;
+          return;
+        }
+
         const newMoment = {
           id: 'moment_' + Date.now(),
           image: currentBase64Image,
